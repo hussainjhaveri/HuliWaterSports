@@ -21,8 +21,8 @@ DATABASES = {
     }
 }
 
-STRIPE_PUBLIC_KEY = config('STRIPE_LIVE_PUBLIC_KEY')
-STRIPE_SECRET_KEY = config('STRIPE_LIVE_SECRET_KEY')
+STRIPE_PUBLIC_KEY='sk_test_51HaBStAJk6sbxMgtIvyp2IXOY66io7qXiVPHVHUxvk70ynmJe2kqqAVjmt5iNWP2wBekoO97xZybYpLxkZU2yX5g00zvB8Ubd4'
+STRIPE_SECRET_KEY='sk_test_51HaBStAJk6sbxMgtIvyp2IXOY66io7qXiVPHVHUxvk70ynmJe2kqqAVjmt5iNWP2wBekoO97xZybYpLxkZU2yX5g00zvB8Ubd4'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
