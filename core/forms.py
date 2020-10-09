@@ -2,6 +2,7 @@ from django import forms
 from django_countries.fields import CountryField
 from django_countries.widgets import CountrySelectWidget
 
+from core.models import Estimate
 
 PAYMENT_CHOICES = (
     ('S', 'Stripe'),
@@ -36,6 +37,30 @@ class CheckoutForm(forms.Form):
 
     payment_option = forms.ChoiceField(
         widget=forms.RadioSelect, choices=PAYMENT_CHOICES)
+
+
+class EstimateForm(forms.ModelForm):
+    class Meta:
+        model = Estimate
+        exclude = ['requester']
+        labels = {
+            'shipping_address': 'Destination Address',
+            'item': "Item",
+            'quantitys':'How Many Smalls?',
+            'quantitym':'How Many Mediums?',
+            'quantityl':'How Many Larges?',
+            'notes': "Additional Notes"
+
+        }
+        # help_texts={
+        #     'quantitys': "Default is 0",
+        #     'quantitym': 'Default is 0',
+        #     'quantityl': "Default is 0"
+        # }
+        widgets= {
+            'notes': forms.Textarea(attrs={'rows':4,'cols':100})
+        }
+
 
 
 class CouponForm(forms.Form):

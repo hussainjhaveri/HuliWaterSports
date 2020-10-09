@@ -7,13 +7,16 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.shortcuts import render, get_object_or_404
+from django.urls import reverse_lazy, reverse
 from django.utils import timezone
-from django.views.generic import ListView, DetailView, View
+from django.views.generic import ListView, DetailView, View, FormView
 
-from .forms import CheckoutForm, CouponForm, RefundForm, PaymentForm
-from .models import Item, OrderItem, Order, Address, Payment, Coupon, Refund, UserProfile
+from .forms import CheckoutForm, CouponForm, RefundForm, PaymentForm, EstimateForm
+from .models import Item, OrderItem, Order, Address, Payment, Coupon, Refund, UserProfile, Estimate
+from django.core.mail import EmailMessage
 
 stripe.api_key = settings.STRIPE_SECRET_KEY
 
@@ -204,6 +207,52 @@ class CheckoutView(View):
         except ObjectDoesNotExist:
             messages.warning(self.request, "You do not have an active order")
             return redirect("core:order-summary")
+
+
+
+class EstimateView(View):
+    def post(self, request, *args, **kwargs):
+        form = EstimateForm(request.POST)
+        form.instance.requester = request.user
+        if form.is_valid():
+            newestimate=form.save()
+
+            return HttpResponseRedirect(reverse('core:email', args=(newestimate.pk,)))
+
+    def get(self, request, *args, **kwargs):
+        form = EstimateForm()
+        context = {'form': form}
+        return render(request, 'estimate.html', context, )
+
+
+class EmailView(View):
+    def get(self, request, *args, **kwargs):
+
+        req = Estimate.objects.get(id=self.kwargs['pk'])
+        demail = EmailMessage(
+            subject= 'estimate from  '+ req.Name,
+            body = 'req.name'+ '  is requesting'+ '  '+str(req.quantityl)+'  large  '+str(req.quantitym)+" medium  "+str(req.quantitys)
+                    +" small of "+ str(req.item)+"  be sent to  "+req.shipping_address +'\n'+ req.notes,
+            from_email='jhaverihussain@gmail.com',
+            to= ['calfano1999@gmail.com']
+        )
+        demail.send()
+        return redirect('core:Info')
+
+def Info(request):
+    if request.method == 'POST':
+        return redirect('core:home')
+    else:
+        return render(request, 'info.html')
+
+
+
+
+
+
+
+
+
 
 
 class PaymentView(View):

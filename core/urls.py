@@ -1,4 +1,6 @@
 from django.urls import path
+
+from . import views
 from .views import (
     ItemDetailView,
     CheckoutView,
@@ -9,8 +11,10 @@ from .views import (
     remove_single_item_from_cart,
     PaymentView,
     AddCouponView,
-    RequestRefundView
+    RequestRefundView, EstimateView, EmailView, Info
 )
+from django.contrib.auth.decorators import login_required
+
 
 app_name = 'core'
 
@@ -25,5 +29,8 @@ urlpatterns = [
     path('remove-item-from-cart/<slug>/', remove_single_item_from_cart,
          name='remove-single-item-from-cart'),
     path('payment/<payment_option>/', PaymentView.as_view(), name='payment'),
-    path('request-refund/', RequestRefundView.as_view(), name='request-refund')
+    path('request-refund/', RequestRefundView.as_view(), name='request-refund'),
+    path('estimate/', login_required(EstimateView.as_view()), name= 'estimate' ),
+    path('<int:pk>/email/', login_required(EmailView.as_view()), name= 'email'),
+    path('info/', views.Info, name = 'Info')
 ]
