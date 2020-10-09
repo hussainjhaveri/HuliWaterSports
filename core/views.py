@@ -199,7 +199,7 @@ class CheckoutView(View):
                 if payment_option == 'S':
                     return redirect('core:payment', payment_option='stripe')
                 elif payment_option == 'P':
-                    return redirect('core:payment', payment_option='paypal')
+                    return redirect('core:paypal')
                 else:
                     messages.warning(
                         self.request, "Invalid payment option selected")
@@ -245,7 +245,13 @@ def Info(request):
     else:
         return render(request, 'info.html')
 
-
+def paypal(request):
+    user= request.user
+    form=CheckoutForm()
+    order = Order.objects.get(user=user, ordered=False)
+    context= {'stuff':order,
+              'form':form}
+    return render(request,'paypal.html',context)
 
 
 
