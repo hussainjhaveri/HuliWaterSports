@@ -424,6 +424,25 @@ class ItemDetailView(DetailView):
     template_name = "product.html"
 
 
+
+def eraser(request):
+    order = Order.objects.get(user=request.user, ordered=False)
+    order_items = order.items.all()
+    order_items.update(ordered=True)
+    for item in order_items:
+        item.save()
+
+    order.ordered = True
+    order.save()
+    return redirect('core:suxx')
+
+def success(request):
+
+    context ={'message':messages.success(request, 'Your Payment was Successful!')}
+    return render(request, 'suxx.html', context)
+
+
+
 @login_required
 def add_to_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)

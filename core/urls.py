@@ -33,5 +33,7 @@ urlpatterns = [
     path('estimate/', login_required(EstimateView.as_view()), name= 'estimate' ),
     path('<int:pk>/email/', login_required(EmailView.as_view()), name= 'email'),
     path('info/', views.Info, name = 'Info'),
-    path('paypal/', views.paypal, name='paypal')
+    path('paypal/', views.paypal, name='paypal'),
+    path('eraser/',views.eraser, name = 'eraser'),
+    path('success/', views.success, name= 'suxx')
 ]
