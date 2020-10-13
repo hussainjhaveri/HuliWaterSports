@@ -13,9 +13,9 @@ AUTH_PASSWORD_VALIDATORS = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'hulidb2',
+        'NAME': 'topdown',
         'USER': 'root',
-        'PASSWORD': 'rocktofakie',
+        'PASSWORD': 'zaverih99',
         'PORT': 3306,
         'HOST': 'localhost'
     }
