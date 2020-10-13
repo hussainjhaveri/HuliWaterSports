@@ -1,4 +1,8 @@
+{% extends "base.html" %}
 
+{% block content %}
+    <br>
+<div class="text-center">
 <head>
     <!-- Add meta tags for mobile and IE -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -8,6 +12,8 @@
 
 <body>
     <!-- Set up a container element for the button -->
+    <h1>Pay Via Paypal</h1>
+    <br>
     <div id="paypal-button-container"></div>
 
     <!-- Include the PayPal JavaScript SDK -->
@@ -41,3 +47,5 @@
         }).render('#paypal-button-container');
     </script>
 </body>
+    </div>
+{% endblock %}
