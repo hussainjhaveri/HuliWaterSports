@@ -23,10 +23,28 @@
     </li>
     {% endif %}
     <li class="list-group-item d-flex justify-content-between">
-        <span>Total (USD)</span>
+        <span>SubTotal (USD)</span>
         <strong>${{ order.get_total|floatformat:2  }}</strong>
     </li>
-    </ul>
+
+
+     <li class="list-group-item d-flex justify-content-between">
+            <span>Shipping (USD)</span>
+            <strong>$7.50</strong>
+        </li>
+
+    <li class="list-group-item d-flex justify-content-between">
+            <span>Tax (USD)</span>
+            <strong>${{ order.get_tax_total|floatformat:2  }}</strong>
+        </li>
+
+     <li class="list-group-item d-flex justify-content-between">
+            <span>Total (USD)</span>
+            <strong>${{ order.get_final_total|floatformat:2  }}</strong>
+        </li>
+
+     </ul>
+
 
     {% if DISPLAY_COUPON_FORM %}
     <form class="card p-2" action="{% url 'core:add-coupon' %}" method="POST">

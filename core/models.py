@@ -133,6 +133,24 @@ class Order(models.Model):
             total -= self.coupon.amount
         return total
 
+    def get_tax_total(self):
+        total = 0
+        for order_item in self.items.all():
+            total += order_item.get_final_price()
+        if self.coupon:
+            total -= self.coupon.amount
+        tax_total = total*.08
+        return tax_total
+
+    def get_final_total(self):
+        total = 0
+        for order_item in self.items.all():
+            total += order_item.get_final_price()
+        if self.coupon:
+            total -= self.coupon.amount
+        tax_total = total * .08
+        final_total = total+tax_total+7.50
+        return final_total
 
 class Address(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
