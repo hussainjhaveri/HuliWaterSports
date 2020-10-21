@@ -28,7 +28,7 @@
                 return actions.order.create({
                     purchase_units: [{
                         amount: {
-                            value: {{ stuff.get_total }}
+                            value: {{ stuff.get_final_total }}
                         }
                     }]
                 });

@@ -337,7 +337,7 @@ class PaymentView(View):
                 payment = Payment()
                 payment.stripe_charge_id = charge['id']
                 payment.user = self.request.user
-                payment.amount = order.get_total()
+                payment.amount = order.get_final_total()
                 payment.save()
 
                 # assign the payment to the order
