@@ -423,6 +423,21 @@ class ItemDetailView(DetailView):
     model = Item
     template_name = "product.html"
 
+# class ItemDetailView(View):
+#
+#
+#     def get(self, request, slug=None, *args, **kwargs):
+#         item = Item.objects.get(self.slug)
+#         context = {
+#             'object': item
+#         }
+#         if item.size is 'S':
+#             return render(request,"productsmall.html", context)
+#         # elif item.size is 'L':
+#         else:
+#             return render(request, "product.html", context)
+
+
 
 
 def eraser(request):
@@ -443,6 +458,36 @@ def success(request):
 
 
 
+# def guest_add_to_cart(request, slug):
+#     item = get_object_or_404(Item, slug=slug)
+#     order_item, created = OrderItem.objects.get_or_create(
+#         item=item,
+#         user=request.user,
+#         ordered=False
+#     )
+#     order_qs = Order.objects.filter(user=request.user, ordered=False)
+#     if order_qs.exists():
+#         order = order_qs[0]
+#         # check if the order item is in the order
+#         if order.items.filter(item__slug=item.slug).exists():
+#             # order_item.quantity += 1
+#             order_item.save()
+#             messages.info(request, "This item quantity was updated.")
+#             return redirect("core:order-summary")
+#         else:
+#             order.items.add(order_item)
+#             messages.info(request, "This item was added to your cart.")
+#             return redirect("core:order-summary")
+#     else:
+#         ordered_date = timezone.now()
+#         order = Order.objects.create(
+#             user=request.user, ordered_date=ordered_date)
+#         order.items.add(order_item)
+#         messages.info(request, "This item was added to your cart.")
+#         return redirect("core:order-summary")
+
+
+
 @login_required
 def add_to_cart(request, slug):
     item = get_object_or_404(Item, slug=slug)
@@ -456,7 +501,7 @@ def add_to_cart(request, slug):
         order = order_qs[0]
         # check if the order item is in the order
         if order.items.filter(item__slug=item.slug).exists():
-            # order_item.quantity += 1
+            order_item.quantity += 1
             order_item.save()
             messages.info(request, "This item quantity was updated.")
             return redirect("core:order-summary")

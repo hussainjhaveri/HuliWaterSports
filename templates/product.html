@@ -42,7 +42,9 @@
             <p class="lead font-weight-bold">Description</p>
 
             <p>{{ object.description }}</p>
-
+            <a href="{{ object.get_small_url }}">I'm Small</a>
+            <a href="{{ object.get_large_url }}">I'm large</a>
+            <a href="{{ object.get_absolute_url }}">I'm Medium</a>
             {% comment %} <form class="d-flex justify-content-left">
               <!-- Default input -->
               <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">

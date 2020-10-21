@@ -6,6 +6,11 @@ from django.db.models import Sum
 from django.shortcuts import reverse
 from django_countries.fields import CountryField
 
+SIZES = (
+    ('S', 'Small'),
+    ('M', 'Medium'),
+    ('L', 'Large')
+)
 
 CATEGORY_CHOICES = (
     ('S', 'Shirt'),
@@ -39,6 +44,7 @@ class Item(models.Model):
     title = models.CharField(max_length=100)
     price = models.FloatField()
     discount_price = models.FloatField(blank=True, null=True)
+    size = models.CharField(choices=SIZES, max_length=1)
     category = models.CharField(choices=CATEGORY_CHOICES, max_length=2)
     label = models.CharField(choices=LABEL_CHOICES, max_length=1)
     slug = models.SlugField()
@@ -48,6 +54,20 @@ class Item(models.Model):
 
     def __str__(self):
         return self.title
+
+    def get_large_url(self):
+        name = str(self.slug) + "large"
+
+        return reverse("core:product", kwargs={
+            'slug': name
+        })
+
+    def get_small_url(self):
+        name = str(self.slug) + "small"
+
+        return reverse("core:product", kwargs={
+            'slug': name
+        })
 
     def get_absolute_url(self):
         return reverse("core:product", kwargs={
