@@ -423,6 +423,11 @@ class ItemDetailView(DetailView):
     model = Item
     template_name = "product.html"
 
+class ItemSizeDetailView(DetailView):
+    model = Item
+    template_name = "productsmall.html"
+
+
 # class ItemDetailView(View):
 #
 #

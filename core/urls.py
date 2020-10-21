@@ -11,7 +11,7 @@ from .views import (
     remove_single_item_from_cart,
     PaymentView,
     AddCouponView,
-    RequestRefundView, EstimateView, EmailView, Info
+    RequestRefundView, EstimateView, EmailView, Info, ItemSizeDetailView,
 )
 from django.contrib.auth.decorators import login_required
 
@@ -23,6 +23,7 @@ urlpatterns = [
     path('checkout/', CheckoutView.as_view(), name='checkout'),
     path('order-summary/', OrderSummaryView.as_view(), name='order-summary'),
     path('product/<slug>/', ItemDetailView.as_view(), name='product'),
+    path('products/<slug>/', ItemSizeDetailView.as_view(), name='productsize'),
 
     path('add-to-cart/<slug>/', add_to_cart, name='add-to-cart'),
     path('add-coupon/', AddCouponView.as_view(), name='add-coupon'),

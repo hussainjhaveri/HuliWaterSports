@@ -58,14 +58,14 @@ class Item(models.Model):
     def get_large_url(self):
         name = str(self.slug) + "large"
 
-        return reverse("core:product", kwargs={
+        return reverse("core:productsize", kwargs={
             'slug': name
         })
 
     def get_small_url(self):
         name = str(self.slug) + "small"
 
-        return reverse("core:product", kwargs={
+        return reverse("core:productsize", kwargs={
             'slug': name
         })
 
