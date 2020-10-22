@@ -50,6 +50,7 @@ class Item(models.Model):
     slug = models.SlugField()
     description = models.TextField()
     image = models.ImageField()
+    back_image= models.ImageField(null=True)
     label_text = models.CharField(max_length=10)
 
     def __str__(self):

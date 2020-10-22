@@ -6,6 +6,7 @@ from django.conf import settings
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User
 from django.core.exceptions import ObjectDoesNotExist
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
@@ -446,8 +447,18 @@ class ItemSizeDetailView(DetailView):
 
 
 def eraser(request):
+
     order = Order.objects.get(user=request.user, ordered=False)
+    # user = User.objects.get(request.user)
+
     order_items = order.items.all()
+    demail = EmailMessage(
+        subject='order from  '+order.user.email,
+        body= order,
+        from_email='jhaverihussain@gmail.com',
+        to=['calfano1999@gmail.com']
+    )
+    demail.send()
     order_items.update(ordered=True)
     for item in order_items:
         item.save()

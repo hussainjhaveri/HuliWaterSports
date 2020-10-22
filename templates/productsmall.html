@@ -11,7 +11,8 @@
         <!--Grid column-->
         <div class="col-md-6 mb-4">
 
-          <img src={{object.image.url}} class="img-fluid" alt="">
+          <img src={{object.image.url}} class="img-fluid" alt="">\
+
 
         </div>
         <!--Grid column-->
@@ -42,19 +43,6 @@
             <p class="lead font-weight-bold">Description</p>
 
             <p>{{ object.description }}</p>
-
-          <p class="lead font-weight-normal ">Other Sizes </p>
-            <a href="{{ object.get_small_url }}" class="btn btn-outline-green btn-md my-0 p">
-                Small
-            </a>
-            <a href="{{ object.get_large_url }}" class="btn btn-outline-green btn-md my-0 p">
-                Large
-            </a>
-
-          <br>
-          <br>
-          <br>
-
 
             {% comment %} <form class="d-flex justify-content-left">
               <!-- Default input -->
