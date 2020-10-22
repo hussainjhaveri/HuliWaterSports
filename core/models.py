@@ -209,14 +209,10 @@ class Coupon(models.Model):
         return self.code
 
 class Estimate(models.Model):
-    shipping_address = models.CharField(max_length=200)
-    requester = models.ForeignKey(AUTH_USER_MODEL, on_delete=models.CASCADE)
-    item = models.ForeignKey(Item, on_delete=models.SET_NULL, blank=True, null=True)
-    quantitys = models.IntegerField(default=0)
-    quantitym = models.IntegerField(default=0)
-    quantityl = models.IntegerField(default=0)
     notes = models.CharField(max_length=400)
-    Name = models.CharField(max_length= 200)
+    email = models.CharField(max_length=30)
+
+
 
 
 

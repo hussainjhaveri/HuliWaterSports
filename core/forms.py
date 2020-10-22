@@ -42,14 +42,18 @@ class CheckoutForm(forms.Form):
 class EstimateForm(forms.ModelForm):
     class Meta:
         model = Estimate
-        exclude = ['requester']
+        exclude = ['requester', 'shipping_address',
+                   'item',
+                   'quantitys',
+                   'quantitym',
+                   'quantityl', ]
         labels = {
             'shipping_address': 'Destination Address',
             'item': "Item",
-            'quantitys':'How Many Smalls?',
-            'quantitym':'How Many Mediums?',
-            'quantityl':'How Many Larges?',
-            'notes': "Additional Notes"
+            'quantitys': 'How Many Smalls?',
+            'quantitym': 'How Many Mediums?',
+            'quantityl': 'How Many Larges?',
+            'notes': "Inquiry"
 
         }
         # help_texts={
@@ -57,10 +61,9 @@ class EstimateForm(forms.ModelForm):
         #     'quantitym': 'Default is 0',
         #     'quantityl': "Default is 0"
         # }
-        widgets= {
-            'notes': forms.Textarea(attrs={'rows':4,'cols':100})
+        widgets = {
+            'notes': forms.Textarea(attrs={'rows': 4, 'cols': 100})
         }
-
 
 
 class CouponForm(forms.Form):

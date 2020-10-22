@@ -210,13 +210,12 @@ class CheckoutView(View):
             return redirect("core:order-summary")
 
 
-
 class EstimateView(View):
     def post(self, request, *args, **kwargs):
         form = EstimateForm(request.POST)
         form.instance.requester = request.user
         if form.is_valid():
-            newestimate=form.save()
+            newestimate = form.save()
 
             return HttpResponseRedirect(reverse('core:email', args=(newestimate.pk,)))
 
@@ -228,17 +227,16 @@ class EstimateView(View):
 
 class EmailView(View):
     def get(self, request, *args, **kwargs):
-
         req = Estimate.objects.get(id=self.kwargs['pk'])
         demail = EmailMessage(
-            subject= 'estimate from  '+ req.Name,
-            body = 'req.name'+ '  is requesting'+ '  '+str(req.quantityl)+'  large  '+str(req.quantitym)+" medium  "+str(req.quantitys)
-                    +" small of "+ str(req.item)+"  be sent to  "+req.shipping_address +'\n'+ req.notes,
+            subject='estimate from  ' + req.email,
+            body=req.notes,
             from_email='jhaverihussain@gmail.com',
-            to= ['calfano1999@gmail.com']
+            to=['calfano1999@gmail.com']
         )
         demail.send()
         return redirect('core:Info')
+
 
 def Info(request):
     if request.method == 'POST':
@@ -246,20 +244,14 @@ def Info(request):
     else:
         return render(request, 'info.html')
 
+
 def paypal(request):
-    user= request.user
-    form=CheckoutForm()
+    user = request.user
+    form = CheckoutForm()
     order = Order.objects.get(user=user, ordered=False)
-    context= {'stuff':order,
-              'form':form}
-    return render(request,'paypal.html',context)
-
-
-
-
-
-
-
+    context = {'stuff': order,
+               'form': form}
+    return render(request, 'paypal.html', context)
 
 
 class PaymentView(View):
@@ -269,7 +261,7 @@ class PaymentView(View):
             context = {
                 'order': order,
                 'DISPLAY_COUPON_FORM': False,
-                'STRIPE_PUBLIC_KEY' : settings.STRIPE_PUBLIC_KEY
+                'STRIPE_PUBLIC_KEY': settings.STRIPE_PUBLIC_KEY
             }
             userprofile = self.request.user.userprofile
             if userprofile.one_click_purchasing:
@@ -424,6 +416,7 @@ class ItemDetailView(DetailView):
     model = Item
     template_name = "product.html"
 
+
 class ItemSizeDetailView(DetailView):
     model = Item
     template_name = "productsmall.html"
@@ -444,17 +437,19 @@ class ItemSizeDetailView(DetailView):
 #             return render(request, "product.html", context)
 
 
-
-
 def eraser(request):
-
     order = Order.objects.get(user=request.user, ordered=False)
     # user = User.objects.get(request.user)
 
     order_items = order.items.all()
+    zipper = str(order.shipping_address.zip)
+    print(order.shipping_address)
+             #  order.items + ' '
+             # + order.shipping_address.country + ' '
+             # + zipper)
     demail = EmailMessage(
-        subject='order from  '+order.user.email,
-        body= order,
+        subject='order from  ' + order.user.email,
+        body='',
         from_email='jhaverihussain@gmail.com',
         to=['calfano1999@gmail.com']
     )
@@ -467,11 +462,10 @@ def eraser(request):
     order.save()
     return redirect('core:suxx')
 
+
 def success(request):
-
-    context ={'message':messages.success(request, 'Your Payment was Successful!')}
+    context = {'message': messages.success(request, 'Your Payment was Successful!')}
     return render(request, 'suxx.html', context)
-
 
 
 # def guest_add_to_cart(request, slug):
@@ -501,7 +495,6 @@ def success(request):
 #         order.items.add(order_item)
 #         messages.info(request, "This item was added to your cart.")
 #         return redirect("core:order-summary")
-
 
 
 @login_required
