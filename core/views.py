@@ -344,7 +344,13 @@ class PaymentView(View):
                 order.payment = payment
                 order.ref_code = create_ref_code()
                 order.save()
-
+                user = self.request.user
+                demail = EmailMessage(
+                    subject='order from  ' + user.email,
+                    body='Your order has been received! Please wait, your tracking number will be emailed to you shortly.',
+                    from_email='jhaverihussain@gmail.com',
+                    to=[user.email])
+                demail.send()
                 messages.success(self.request, "Your order was successful!")
                 return redirect("/")
 
@@ -439,19 +445,13 @@ class ItemSizeDetailView(DetailView):
 
 def eraser(request):
     order = Order.objects.get(user=request.user, ordered=False)
-    # user = User.objects.get(request.user)
-
+    user= request.user
     order_items = order.items.all()
-    zipper = str(order.shipping_address.zip)
-    print(order.shipping_address)
-             #  order.items + ' '
-             # + order.shipping_address.country + ' '
-             # + zipper)
     demail = EmailMessage(
-        subject='order from  ' + order.user.email,
-        body='',
+        subject='order from  ' + user.email,
+        body='Your order has been received! Please wait, your tracking number will be emailed to you shortly.',
         from_email='jhaverihussain@gmail.com',
-        to=['calfano1999@gmail.com']
+        to=[user.email]
     )
     demail.send()
     order_items.update(ordered=True)
