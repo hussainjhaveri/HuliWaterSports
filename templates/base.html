@@ -11,9 +11,10 @@
   {% endblock %}
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css">
   <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
   <link href="{% static 'css/mdb.min.css' %}" rel="stylesheet">
   <link href="{% static 'css/style.min.css' %}" rel="stylesheet">
-
+{% block style %}
   <style type="text/css">
     html,
     body,
@@ -47,11 +48,11 @@
         height: 1px;
         background-color: black;
       }
-       .card-img-top:hover{
-            background: url("{{ item.back_image.url }}") no-repeat;
-        }
+
+
 
   </style>
+{% endblock %}
 </head>
 
 {% include "navbar.html" %}
