@@ -84,7 +84,7 @@ class CheckoutView(View):
                 use_default_shipping = form.cleaned_data.get(
                     'use_default_shipping')
                 if use_default_shipping:
-                    print("Using the defualt shipping address")
+                    print("Using the default shipping address")
                     address_qs = Address.objects.filter(
                         user=self.request.user,
                         address_type='S',
@@ -333,6 +333,30 @@ class PaymentView(View):
                 payment.amount = order.get_final_total()
                 payment.save()
 
+                user = self.request.user
+                usersitems = OrderItem.objects.filter(user=self.request.user, ordered=False)
+                itemlist = []
+                for x in usersitems:
+                    itemlist.append(str(x.item))
+
+                def concatenate_list_data(listy):
+                    result = ''
+                    for element in listy:
+                        result += str(element)+','
+                    return result
+                concatitems = concatenate_list_data(itemlist)
+
+                orderemail = EmailMessage(
+                    subject='order from  ' + user.email,
+                    body=
+                    'shipping_address= '+order.shipping_address.street_address+ '\n '+'zipcode= '+order.shipping_address.zip+ '\n '+'Country= ' + str(order.shipping_address.country)
+                    + '\n ' +'address2= '+ order.shipping_address.apartment_address+'\n ' +'items= '+concatitems
+                    ,
+                    from_email='jhaverihussain@gmail.com',
+                    to=[user.email]
+                )
+                orderemail.send()
+
                 # assign the payment to the order
 
                 order_items = order.items.all()
@@ -344,13 +368,18 @@ class PaymentView(View):
                 order.payment = payment
                 order.ref_code = create_ref_code()
                 order.save()
-                user = self.request.user
+
+                # confirmation email
                 demail = EmailMessage(
                     subject='order from  ' + user.email,
                     body='Your order has been received! Please wait, your tracking number will be emailed to you shortly.',
                     from_email='jhaverihussain@gmail.com',
                     to=[user.email])
                 demail.send()
+
+
+
+
                 messages.success(self.request, "Your order was successful!")
                 return redirect("/")
 
@@ -389,11 +418,11 @@ class PaymentView(View):
                     self.request, "Something went wrong. You were not charged. Please try again.")
                 return redirect("/")
 
-            except Exception as e:
-                # send an email to ourselves
-                messages.warning(
-                    self.request, "A serious error occurred. We have been notifed.")
-                return redirect("/")
+            # except Exception as e:
+            #     # send an email to ourselves
+            #     messages.warning(
+            #         self.request, "A serious error occurred. We have been notifed.")
+            #     return redirect("/")
 
         messages.warning(self.request, "Invalid data received")
         return redirect("/payment/stripe/")
@@ -447,13 +476,40 @@ def eraser(request):
     order = Order.objects.get(user=request.user, ordered=False)
     user= request.user
     order_items = order.items.all()
-    demail = EmailMessage(
+    usersitems = OrderItem.objects.filter(user= request.user,ordered= False  )
+    print(usersitems)
+    confemail = EmailMessage(
         subject='order from  ' + user.email,
         body='Your order has been received! Please wait, your tracking number will be emailed to you shortly.',
         from_email='jhaverihussain@gmail.com',
         to=[user.email]
     )
-    demail.send()
+    confemail.send()
+
+    usersitems = OrderItem.objects.filter(user=self.request.user, ordered=False)
+    itemlist = []
+    for x in usersitems:
+        itemlist.append(str(x.item))
+
+    def concatenate_list_data(listy):
+        result = ''
+        for element in listy:
+            result += str(element) + ','
+        return result
+
+    concatitems = concatenate_list_data(itemlist)
+
+    orderemail = EmailMessage(
+        subject='order from  ' + user.email,
+        body=
+        'shipping_address= ' + order.shipping_address.street_address + '\n ' + 'zipcode= ' + order.shipping_address.zip + '\n ' + 'Country= ' + str(
+            order.shipping_address.country)
+        + '\n ' + 'address2= ' + order.shipping_address.apartment_address + '\n ' + 'items= ' + concatitems
+        ,
+        from_email='jhaverihussain@gmail.com',
+        to=[user.email]
+    )
+    orderemail.send()
     order_items.update(ordered=True)
     for item in order_items:
         item.save()
