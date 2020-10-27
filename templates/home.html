@@ -247,33 +247,36 @@
       <!--Section: Products v.3-->
       <section class="text-center mb-4">
 
-          <img src="http://icons.iconarchive.com/icons/fasticon/angry-birds/128/yellow-bird-icon.png"
-    onmouseover="this.src='http://icons.iconarchive.com/icons/fasticon/angry-birds/128/red-bird-icon.png'"
-    onmouseout="this.src='http://icons.iconarchive.com/icons/fasticon/angry-birds/128/yellow-bird-icon.png'"
-    border="0" alt=""/></a>
+{#          <img src="http://icons.iconarchive.com/icons/fasticon/angry-birds/128/yellow-bird-icon.png"#}
+{#    onmouseover="this.src='http://icons.iconarchive.com/icons/fasticon/angry-birds/128/red-bird-icon.png'"#}
+{#    onmouseout="this.src='http://icons.iconarchive.com/icons/fasticon/angry-birds/128/yellow-bird-icon.png'"#}
+{#    border="0" alt=""/></a>#}
 
         <div class="row wow fadeIn">
 
           {% for item in object_list  %}
               {% if item.size == 'M' %}
 
-          <div class="col-lg-3 col-md-6 mb-4" >
+          <div class="col-lg-3 col-md-6 mb-4 " >
 
-            <div class="card text-white bg-dark mb-3">
+            <a href="{{ item.get_absolute_url }}">
+            <img src="{{ item.image.url }}" class="card-img-top"
+             onmouseover="this.src='{{ item.back_image.url }}'"
+             onmouseout="this.src='{{ item.image.url }}'"
+             border="0" alt=""/>
+
+            <div class="card text-white bg-primary mb-3">
 
               <div class="view overlay">
                 {% comment %} <img src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12.jpg" class="card-img-top" {% endcomment %}
-                <img src="{{ item.image.url }}" class="card-img-top"
-                     onmouseover="this.src='{{ item.back_image.url }}'"
-                     onmouseout="this.src='{{ item.image.url }}'"
-                     border="0" alt=""/>
+
 {#                  <p>{{ item.image.url }}</p>#}
 
 {#                  <img src="{{ item.image.url }}" class="item-shirt">#}
 
 {#                     <img src="SSX.jpg" onmouseover="this.src='SSX2.jpg';" onmouseout="this.src='SSX.jpg';" height=100 width=120 />#}
 {#                   <img src="{{ item.image.url }}" onmouseover="this.src='{{ item.back_image.url }}';" onmouseout="this.src='SSX.jpg';" height=100 width=120 />#}
-                <a href="{{ item.get_absolute_url }}">
+
                   <div class="mask rgba-white-slight"></div>
                 </a>
               </div>
@@ -285,17 +288,19 @@
                 <h5>
                   <strong>
                     <a href="{{ item.get_absolute_url }}" class="white-text">{{ item.title }}
-                      <span class="badge badge-pill {{ item.get_label_display }}-color">{{ item.label_text }}</span>
+                    <span class="badge badge-pill {{ item.get_label_display }}-color">{{ item.label_text }}</span>
                     </a>
                   </strong>
                 </h5>
 
-                <h4 class="font-weight-bold blue-text">
+                <h4 class="font-weight-bold white-text">
                   <strong>$
                   {% if item.discount_price %}
                   {{ item.discount_price|floatformat:2 }}
                   {% else %}
                   {{ item.price|floatformat:2  }}
+                      <br>
+
                   {% endif %}
                   </strong>
                 </h4>

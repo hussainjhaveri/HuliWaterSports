@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-
+{% load static %}
 {% block content %}
 
   <main class="mt-5 pt-4">
@@ -10,9 +10,57 @@
 
         <!--Grid column-->
         <div class="col-md-6 mb-4">
+            <div id="carousel-example-1z" class="carousel slide carousel-fade pt-4" data-ride="carousel">
 
-          <img src={{object.image.url}} class="img-fluid" alt="">
+    <!--Indicators-->
+                <ol class="carousel-indicators">
+                  <li data-target="#carousel-example-1z" data-slide-to="0" class="active"></li>
+                  <li data-target="#carousel-example-1z" data-slide-to="1"></li>
 
+                </ol>
+                <!--/.Indicators-->
+
+                <!--Slides-->
+                <div class="carousel-inner" role="listbox">
+
+                  <!--First slide-->
+                  <div class="carousel-item active">
+                    <div class="view" style="background-image: url({{ object.image.url }}); background-repeat: no-repeat; background-position: center;">
+
+                      <!-- Mask & flexbox options-->
+                      <div class="d-flex justify-content-center align-items-center">
+
+                        <!-- Content -->
+                        <div class="text-center white-text mx-5 wow fadeIn">
+
+                        </div>
+                        <!-- Content -->
+
+                      </div>
+                      <!-- Mask & flexbox options-->
+                    </div>
+                  </div>
+
+                  <div class="carousel-item">
+                    <div class="view" style="background-image: url({{ object.back_image.url }}); background-repeat: no-repeat; background-position: center;">
+
+                      <!-- Mask & flexbox options-->
+                      <div class="d-flex justify-content-center align-items-center">
+
+                        <!-- Content -->
+                        <div class="text-center white-text mx-5 wow fadeIn">
+
+                        </div>
+                        <!-- Content -->
+
+                      </div>
+                      <!-- Mask & flexbox options-->
+                    </div>
+                  </div>
+{#          <img src={{object.image.url}} class="img-fluid" alt="">#}
+
+        </div>
+            </div>
         </div>
         <!--Grid column-->
 
@@ -90,11 +138,9 @@
         <!--Grid column-->
         <div class="col-md-6 text-center">
 
-          <h4 class="my-4 h4">Additional information</h4>
+          <h4 class="my-4 h4">Sizing</h4>
 
-          <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Natus suscipit modi sapiente illo soluta odit
-            voluptates,
-            quibusdam officia. Neque quibusdam quas a quis porro? Molestias illo neque eum in laborum.</p>
+          <p>Please refer to the sizing chart below</p>
 
         </div>
         <!--Grid column-->
